@@ -2,9 +2,10 @@
 /*
 Displays the form that controls basic settings
 */
-$this_id = $_GET['id']; //this table id
+$this_id = intval($_GET['id']); //this table id
 $table_name = $wpdb->prefix . "websimon_tables";
-$result = $wpdb->get_results("SELECT * FROM $table_name WHERE id='$this_id'");
+$query = $wpdb->prepare("SELECT * FROM $table_name WHERE id='%d'", $this_id);
+$result = $wpdb->get_results( $query );
 
 //get database informatione for this table
 foreach ($result as $results) {
