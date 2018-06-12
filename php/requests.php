@@ -492,14 +492,16 @@ if ( empty($_POST) || !wp_verify_nonce($_POST['nonce_table_content'],'table-cont
    exit;
 }	
 	else
-{	 
+{
 
 	$content = ''; //content string to be saved to the database
 	$headlines = ''; //headline string to be saved to the database
-	$id = $_POST['edit_hidden_content_id'];
+	$id = intval( $_POST['edit_hidden_content_id'] );
 	global $wpdb;
 	$table_name = $wpdb->prefix . "websimon_tables";
-	$result = $wpdb->get_results("SELECT rows,cols,tablename FROM $table_name WHERE id='$id'");
+	$query = $wpdb->prepare("SELECT `rows`,`cols`,`tablename` FROM `$table_name` WHERE id=%d", $id);
+	$result = $wpdb->get_results( $query );
+
 	foreach ($result as $results) {
 		$numrow = $results->rows;
 		$numcol = $results->cols;
